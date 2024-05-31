@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Subject>
+@{
+    Layout = "_AdminLayout";
+}
+
+<h2>Subjects</h2>
+
+<div class="row">
+    <div class="col-10"></div>
+    <div class="col-2">
+        <a asp-action="AddSubject" asp-controller="Subject" class="btn btn-info">Add New Subject</a>
+    </div>
+</div>
+
+<table class="table table-striped my-2">
+    <tr>
+        <th>Subject</th>
+        <th></th>
+    </tr>
+
+    @foreach(var subject in Model)
+    {
+        <tr>
+            <td>@subject.SubjectName</td>
+            <td>
+                <a asp-action="UpdateSubject" asp-controller="Subject" asp-route-id="@subject.Id" class="btn btn-success">Edit</a>
+                <a asp-action="DeleteSubject" asp-controller="Subject" asp-route-id="@subject.Id" class="btn btn-danger" onclick="return window.confirm('Are you sure?')">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+

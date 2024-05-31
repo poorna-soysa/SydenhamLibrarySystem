@@ -1,0 +1,60 @@
+﻿@model IEnumerable<LibraryItem>
+@{
+    Layout = "_AdminLayout";
+}
+
+<h2>Library Items</h2>
+
+<div class="row">
+    <div class="col-10"></div>
+    <div class="col-2">
+        <a asp-action="AddLibraryItem" asp-controller="LibraryItem" class="btn btn-primary">Add New Library Item</a>
+    </div>
+</div>
+
+@if(Model?.Count()>0)
+{
+    <table class="table table-striped my-2">
+        <tr>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Subject</th>
+            <th>Type</th>
+            <th>Price</th>
+            <th>No.of Copies</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (string.IsNullOrWhiteSpace(item.Image))
+                    {
+                        <img src="/Images/NoImage.png" style="width:80px;height:100px" alt="item image" />
+                    }
+                    else
+                    {
+                        <img src="/images/@item.Image" style="width:80px;height:100px" alt="item image" />
+                    }
+                </td>
+                <td>@item.Title</td>
+                <td>@item.AuthorName</td>
+                <td>@item.Subject.SubjectName</td>
+                <td>@item.Type</td>
+                <td>@item.Price</td>
+                <td>@item.NoOfCopies</td>
+                <td>
+                    <a asp-action="UpdateLibraryItem" asp-controller="LibraryItem" asp-route-id="@item.Id" class="btn btn-success">Edit</a>
+                    <a asp-action="DeleteLibraryItem" asp-controller="LibraryItem" asp-route-id="@item.Id" class="btn btn-danger" onclick="return window.confirm('Are you sure?')">Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <h3>No records</h3>
+}
+

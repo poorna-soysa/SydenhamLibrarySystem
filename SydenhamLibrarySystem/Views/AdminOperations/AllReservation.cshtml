@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Reservation>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "All Reservations";
+}
+<div style="width:100%" class="mt-2">
+    <h4> All Reservations</h4>
+    @if (Model != null && Model.Count() > 0)
+    {
+        int count = 0;
+        <table class="table table-striped">
+            <tr>
+                <th>#</th>
+                <th>User</th>
+                <th>Reservation Date</th>
+                <th>Issued Date</th>
+                <th>Returned Date</th>   
+                <th>Status</th>
+                <th></th>
+
+            </tr>
+           
+            @foreach (var reservation in Model)
+            {
+                <tr>
+                    <td>@(++count)</td>
+                    <td>@reservation.User.FirstName</td>
+                    <td>@reservation.ReservationDate?.ToString("dd-MM-yyyy")</td>
+                    <td>@reservation.IssuedDate?.ToString("dd-MM-yyyy")</td>
+                    <td>@reservation.ReturnedDate?.ToString("dd-MM-yyyy")</td>
+                    <td>@reservation.Status</td>
+                    <td>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#modal-@reservation.Id" class="btn btn-primary">
+                            View
+                        </button>
+                        <a asp-action="DoCheckout" asp-route-reservationId="@reservation.Id" class="btn btn-info" onclick="return window.confirm('Are you sure?')">Issue Book/CDs</a>
+                        <a asp-action="DoCheckIn" asp-route-reservationId="@reservation.Id" class="btn btn-info" onclick="return window.confirm('Are you sure?')">Return Book/CDs</a>
+@*                         <a asp-action="TogglePaymentStatus" asp-route-orderId="@order.Id" class="btn btn-info">Toggle Payment Status</a>
+ *@
+                   @* appending modal div here *@
+                        @await Html.PartialAsync("/Views/AdminOperations/_ReservationDetailModal.cshtml", new ReservationDetailModalDTO { DivId = reservation.Id.ToString(), ReservationDetail = reservation.ReservationDetails })
+                    </td>
+
+                </tr>
+
+            }
+        </table>
+
+    }
+    else
+    {
+        <h5>No orders</h5>
+    }
+
+
+</div>
+

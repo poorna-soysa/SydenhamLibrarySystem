@@ -1,0 +1,79 @@
+﻿@model LibraryItemDTO
+@{
+    Layout = "_AdminLayout";
+}
+<div style="width:50%">
+    <h2> Update LibraryItem </h2>
+
+    <form asp-action="UpdateLibraryItem" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Image" />
+
+        <div class="my-4">
+            <label>Title*</label>
+            <input type="text" class="form-control" asp-for="Title" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="my-2">
+            <label>Description*</label>
+            <textarea class="form-control" asp-for="Description"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="my-2">
+            <label>Author*</label>
+            <input type="text" class="form-control" asp-for="AuthorName" />
+            <span asp-validation-for="AuthorName" class="text-danger"></span>
+        </div>
+
+        <div class="my-2">
+            <label>Type*</label>
+            <select class="form-control" asp-for="Type" >
+                <option value="" disabled>Select Type</option>
+                @foreach (var type in Enum.GetValues(typeof(SydenhamLibrarySystem.Constants.Enums.LibraryItemType)))
+                {
+                    <option value="@type.ToString()">@type.ToString()</option>
+
+                }
+            </select>
+            <span asp-validation-for="Type" class="text-danger"></span>
+        </div>
+
+
+        <div class="my-2">
+            <label>Category*</label>
+            <select class="form-control" asp-for="SubjectId" asp-items="Model.SubjectList">
+                <option value="" disabled>Select Subject</option>
+            </select>
+            <span asp-validation-for="SubjectId" class="text-danger"></span>
+        </div>
+
+        <div class="my-2">
+            <label>Price*</label>
+            <input type="number" class="form-control" asp-for="Price" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="my-2">
+            <label>No.of Copies*</label>
+            <input type="number" class="form-control" asp-for="NoOfCopies" />
+            <span asp-validation-for="NoOfCopies" class="text-danger"></span>
+        </div>
+
+        <div class="my-2">
+            <label>Image</label>
+            @if(!string.IsNullOrEmpty(Model.Image))
+            {
+                <img src="/images/@Model.Image" style="width:100px;height:80px"/>
+            }
+            <input type="file" class="form-control" asp-for="ImageFile" />
+        </div>
+
+        <div class="my-4">
+            <button type="submit" class="btn btn-info">Update</button>
+            <a asp-action="Index" asp-controller="LibraryItem" class="btn btn-primary">Back</a>
+
+        </div>
+    </form>
+</div>

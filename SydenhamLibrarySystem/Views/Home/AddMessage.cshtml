@@ -1,0 +1,28 @@
+﻿@model MessageDTO
+@{
+    Layout = "_Layout";
+}
+<div style="width:50%">
+    <h2> New Message </h2>
+    
+    <form asp-action="AddMessage" enctype="multipart/form-data">
+  
+        <div class="my-4">
+            <label>Subject*</label>
+            <input type="text" class="form-control" asp-for="Subject" />
+            <span asp-validation-for="Subject" class="text-danger"></span>
+        </div>
+
+        <div class="my-2">
+            <label>Body*</label>
+            <textarea class="form-control" asp-for="Body" ></textarea>
+            <span asp-validation-for="Body" class="text-danger"></span>
+        </div>
+
+
+        <div class="my-4">
+            <button type="submit" class="btn btn-info">Save</button>
+            <a asp-action="AllMessage" asp-controller="Home" class="btn btn-primary">Back</a>
+        </div>
+    </form>
+</div>

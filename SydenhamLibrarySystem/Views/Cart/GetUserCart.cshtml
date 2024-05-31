@@ -1,0 +1,66 @@
+﻿@model Reservation
+@{
+    ViewData["Title"] = "GetUserCart";
+}
+<form asp-action="DoReservation">
+<div style="width:90%;margin:auto" class="mt-2">
+    @if (Model != null && Model.ReservationDetails != null && Model.ReservationDetails.Count > 0)
+    {
+        <h5>My Cart</h5>
+
+        <table class="table table-striped">
+            <tr>
+             
+                <th>Image</th>
+                    <th>Title</th>
+                <th>Subject</th>
+                <th>Type</th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model.ReservationDetails)
+            {
+                <tr>
+                    
+                    <td>
+                        @if (string.IsNullOrEmpty(item.LibraryItem.Image))
+                        {
+                            <img src="/images/NoImage.png" style="width:80px;height:100px" />
+                        }
+                        else
+                        {
+                            <img src="/images/@item.LibraryItem.Image" style="width:80px;height:100px" />
+                        }
+                    </td>
+                        <td>@item.LibraryItem.Title</td>
+                    <td>@item.LibraryItem.Subject.SubjectName</td>
+                    <td>@item.LibraryItem.Type</td>
+                    <td>
+                        @* Check whether there is enough books*@
+                        @* @if (item.Quantity < item.LibraryItem.NoOfCopies)
+                        {
+                            <a class="btn btn-info" href="/Cart/AddItem?id=@item.LibraryItemId&&redirect=1">+</a>
+                        }
+                        else
+                        {
+                            <span style="border: 1px solid;padding: 8px 8px;color: red;border-radius: 5px;margin-right:4px">Out of stock </span>
+                        } *@
+                        @* Decrement button *@
+                        <a class="btn btn-info" href="/cart/removeitem?id=@item.LibraryItemId">X</a>
+                    </td>
+                </tr>
+            }
+        </table>
+
+       
+        <div class="my-2">
+                <button type="submit" class="btn btn-primary">Reservation</button>
+        </div>
+
+    }
+    else
+    {
+        <h5>No Reservation</h5>
+    }
+</div>
+
+</form>

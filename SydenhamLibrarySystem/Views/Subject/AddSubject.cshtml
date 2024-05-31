@@ -1,0 +1,22 @@
+﻿@model SubjectDTO
+@{
+    Layout = "_AdminLayout";
+}
+
+<div style="width:50%">
+<h2> Add Subject </h2>
+    <form asp-action="AddSubject">
+
+   <div class="my-4">
+            <label>Subject</label>
+      <input type="text" class="form-control" asp-for="SubjectName" />
+            <span asp-validation-for="SubjectName" class="text-danger"></span>
+   </div>
+
+   <div class="my-4">
+      <button type="submit" class="btn btn-info">Save</button>
+            <a asp-action="Index" asp-controller="Subject" class="btn btn-primary">Back</a>
+
+   </div>
+</form>
+</div>

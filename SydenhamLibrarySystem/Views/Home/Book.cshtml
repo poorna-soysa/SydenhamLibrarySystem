@@ -1,0 +1,95 @@
+﻿@model LibraryItemDisplayModel
+@{
+
+}
+<div class="my-2">
+ 
+    <form asp-action="Index" class="row row-cols-lg-auto g-3 align-items-center mt-4">
+     
+        <div class="col-12">
+            <label class="visually-hidden" for="categoryId">Subject</label>
+            <select class="form-select" id="categoryId" name="categoryId">
+                <option selected>Subject</option>
+                @foreach (var subject in Model.Subjects)
+                {
+                    <option selected="@(subject.Id == Model.SubjectId)" value="@subject.Id">@subject.SubjectName</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-12 text-right">
+            <label class="visually-hidden" for="search">Search by title</label>
+            <div class="input-group">
+                <div class="input-group-text"></div>
+                <input type="text" class="form-control" value="@Model.SearchTerm" id="search" name="search" placeholder="Search by title, author">
+            </div>
+        </div>
+       
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a href="/Home/Index" class="btn btn-dark">Reset</a>
+        </div>
+        
+    </form>
+</div>
+<div class="w-100 mt-4 d-flex flex-wrap align-items-center">
+    @foreach (var libraryItem in Model.LibraryItems)
+    {
+        <div class="card mx-3 mb-4" style="width: 11rem;">
+            @if (string.IsNullOrEmpty(libraryItem.Image))
+            {
+                <img style="width:100%;height:180px" src="/images/NoImage.png" class="card-img-top" alt="...">
+
+            }
+            else
+            {
+                <img style="width:100%;height:180px" src="/images/@libraryItem.Image" class="card-img-top" alt="...">
+            }
+            <div class="card-body">
+                <h5 class="card-title">@libraryItem.Title</h5>
+                <p class="card-text">
+                    <b>Author: </b>@libraryItem.AuthorName <br />
+                    <b>Subject: </b>@libraryItem.Subject.SubjectName <br />
+                    <b>Type: </b>@libraryItem.Type <br />
+                    <b>Price: </b>Rs. @libraryItem.Price.ToString("N")
+                </p>
+
+                    <a asp-action="Details"
+                   asp-route-id="@libraryItem.Id"
+                       class="btn btn-primary bg-gradient border-0 form-control">
+                        Details
+                    </a>
+              
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts{
+    <script>
+        async function add(bookId) {
+             var usernameEl = document.getElementById("username");
+        if(usernameEl==null){
+            window.location.href = "/Identity/Account/Login";
+          //var username=usernameEl.innerText;
+          //  if(username.length<1){
+          //      window.location.href="/Identity/Account/Login";
+          //  }
+        }
+            try {
+                var response = await fetch(`/Cart/AddItem?bookId=${bookId}`);
+                if (response.status == 200) {
+                    var result = await response.json();
+                    var cartCountEl = document.getElementById("cartCount");
+                    cartCountEl.innerHTML = result;
+                    window.location.href = "#cartCount";
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+    </script>
+}
+
+
